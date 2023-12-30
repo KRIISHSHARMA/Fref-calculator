@@ -1,6 +1,7 @@
 class SSB:
-    def __init__(self, Nref):
+    def __init__(self, Nref , SCS):
         self.r = Nref
+        self.scs = SCS
 
     def Fref(self):
         print("************Fref******************")
@@ -25,7 +26,7 @@ class SSB:
             FRef = 24250 + 60 * ((self.r - 2016667) / 1000)
             print("*********************************")
             print("Fref = {}MHz".format(FRef))
-            return FRef
+            return FRef 
         
     
     def afssb_afpa(self,sec) : 
@@ -36,9 +37,34 @@ class SSB:
         diff_r = round(diff , 2)
         print('****************************')
         print("DIFF BETWEEN ABSOLUTEFREQUENCYSSB AND ABSOULTEFREQUENCYPOINTA :  {}".format(diff_r))
+        return diff_r
+
+    def lower10PRBs(self) : 
+        l10rb = 10 * self.scs * 12  # 10 RBS , 12Sc , scs
+        return l10rb
+    
+    def calc(self) :
+        print("assuming scs = 15KHz for FR1 and 60KHz for FR2")
+        print("Scope of this code is FR1")
+        r = self.afssb_afpa(afpa)  
+        s = self.lower10PRBs()  
+        offsetfre = r - s
+        offset = (r - s) / 180  # 180 = 12 * 15
+        offset_r =  (r - s) // 180 # offsettopointA
+        print("*****************************")
+        print("OFFSETTOPOINTA = {}".format(offset_r)) # offsettopointA
+        k = (offsetfre - (offset_r*12*15))/15 # KSSB in subcarriers
+        print("*****************************")
+        print("KSSB = {}".format(k))
+        
+        SSBoffsettoPOINTA = offset_r + k 
+        print("*****************************")
+        print("SSB OFFSET TO POINT A  = {}".format(SSBoffsettoPOINTA))
+        
+
 
 s = int(input("ENTER ABSOLUTEFREQUENCYSSB :  "))
 a = int(input("ENTER ABSOULTEFREQUENCYPONTA :  "))
-afssb = SSB(s)
-afpa = SSB(a)
-afssb.afssb_afpa(afpa)
+afssb = SSB(s,30)
+afpa = SSB(a,30)
+afssb.calc()
