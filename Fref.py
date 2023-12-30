@@ -15,15 +15,30 @@ class SSB:
             FRef = 3000 + 15 * ((self.r - 600000) / 1000)
             print("*********************************")
             print("Fref = {}MHz".format(FRef))
+            return FRef
         elif freq_range == 0:
             FRef = 0 + 5 * ((self.r - 0) / 1000)
             print("*********************************")
             print("Fref = {}MHz".format(FRef))
+            return FRef
         else:
             FRef = 24250 + 60 * ((self.r - 2016667) / 1000)
             print("*********************************")
             print("Fref = {}MHz".format(FRef))
+            return FRef
+        
+    
+    def afssb_afpa(self,sec) : 
+        print('****************************')
+        afssb = self.Fref()
+        afpa =  sec.Fref()
+        diff = (afssb - afpa)*1000
+        diff_r = round(diff , 2)
+        print('****************************')
+        print("DIFF BETWEEN ABSOLUTEFREQUENCYSSB AND ABSOULTEFREQUENCYPOINTA :  {}".format(diff_r))
 
-s = int(input("ENTER ABSOLUTE VALUE :  "))
-Afreq = SSB(s)
-Afreq.Fref()
+s = int(input("ENTER ABSOLUTEFREQUENCYSSB :  "))
+a = int(input("ENTER ABSOULTEFREQUENCYPONTA :  "))
+afssb = SSB(s)
+afpa = SSB(a)
+afssb.afssb_afpa(afpa)
