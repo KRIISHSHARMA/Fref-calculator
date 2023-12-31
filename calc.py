@@ -1,23 +1,24 @@
 class SSB:
-    def __init__(self, Nref , SCS):
+    def __init__(self, Nref , SCS , freq_range):
         self.r = Nref
         self.scs = SCS
+        self.freq_range = freq_range
 
     def Fref(self):
         print("************Fref******************")
         print("check band from : (https://en.wikipedia.org/wiki/5G_NR_frequency_bands)")
         print("frequency range : 0-3000 MHZ = 0 , 3000-24250 MHZ = 1 , 24250-100000 MHZ = 2")
-        try:
-            freq_range = int(input("ENTER CHOICE :  "))
-        except (ValueError, NameError):
-            print("ENTER VALID VALUE  ")
+        # try:
+        #     freq_range = int(input("ENTER CHOICE :  "))
+        # except (ValueError, NameError):
+        #     print("ENTER VALID VALUE  ")
 
-        if freq_range == 1:
+        if self.freq_range == 1:
             FRef = 3000 + 15 * ((self.r - 600000) / 1000)
             print("*********************************")
             print("Fref = {}MHz".format(FRef))
             return FRef
-        elif freq_range == 0:
+        elif self.freq_range == 0:
             FRef = 0 + 5 * ((self.r - 0) / 1000)
             print("*********************************")
             print("Fref = {}MHz".format(FRef))
@@ -63,8 +64,14 @@ class SSB:
         
 
 
-s = int(input("ENTER ABSOLUTEFREQUENCYSSB :  "))
+s1 = int(input("ENTER ABSOLUTEFREQUENCYSSB :  "))
+s2 = int(input("ENTER SUBCARRIER SPACING : "))
+print("frequency range : 0-3000 MHZ = 0 , 3000-24250 MHZ = 1 , 24250-100000 MHZ = 2")
+s3 = int(input("ENTER CHOICE :  "))
 a = int(input("ENTER ABSOULTEFREQUENCYPONTA :  "))
-afssb = SSB(s,30)
-afpa = SSB(a,30)
+a2 = int(input("ENTER SUBCARRIER SPACING : "))
+afssb = SSB(s1,s2,s3)
+afpa = SSB(a,a2,s3)
 afssb.calc()
+
+
